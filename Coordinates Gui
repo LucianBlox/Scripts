@@ -1,0 +1,145 @@
+local ScreenGui = Instance.new("ScreenGui")
+local df = Instance.new("Frame")
+local main = Instance.new("Frame")
+local upd = Instance.new("TextButton")
+local T = Instance.new("TextBox")
+local exit = Instance.new("TextButton")
+local mini = Instance.new("TextButton")
+
+ScreenGui.Parent = game.CoreGui
+
+df.Name = "df"
+df.Parent = ScreenGui
+df.BackgroundColor3 = Color3.new(0.478431, 0.478431, 0.478431)
+df.BorderSizePixel = 0
+df.Position = UDim2.new(0.245710373, 0, 0.362407863, 0)
+df.Size = UDim2.new(0, 190, 0, 18)
+
+main.Name = "main"
+main.Parent = df
+main.BackgroundColor3 = Color3.new(0.384314, 0.384314, 0.384314)
+main.BorderSizePixel = 0
+main.Position = UDim2.new(0, 0, 1, 0)
+main.Size = UDim2.new(0, 190, 0, 87)
+
+upd.Name = "upd"
+upd.Parent = main
+upd.BackgroundColor3 = Color3.new(0.478431, 0.478431, 0.478431)
+upd.BorderSizePixel = 0
+upd.Position = UDim2.new(0.0315789469, 0, 0.678160906, 0)
+upd.Size = UDim2.new(0, 178, 0, 22)
+upd.Font = Enum.Font.GothamBold
+upd.Text = "Update position"
+upd.TextColor3 = Color3.new(1, 1, 1)
+upd.TextSize = 14
+
+T.Name = "T"
+T.Parent = main
+T.BackgroundColor3 = Color3.new(1, 1, 1)
+T.BackgroundTransparency = 1
+T.Position = UDim2.new(0.0315789469, 0, 0, 0)
+T.Size = UDim2.new(0, 178, 0, 59)
+T.ClearTextOnFocus = false
+T.Font = Enum.Font.GothamBold
+T.Text = ""
+T.TextColor3 = Color3.new(1, 1, 1)
+T.TextSize = 14
+T.TextWrapped = true
+
+exit.Name = "exit"
+exit.Parent = df
+exit.BackgroundColor3 = Color3.new(1, 1, 1)
+exit.BackgroundTransparency = 1
+exit.Position = UDim2.new(0.905263186, 0, 0, 0)
+exit.Size = UDim2.new(0, 18, 0, 18)
+exit.Font = Enum.Font.GothamBold
+exit.Text = "x"
+exit.TextColor3 = Color3.new(1, 1, 1)
+exit.TextSize = 14
+
+mini.Name = "mini"
+mini.Parent = df
+mini.BackgroundColor3 = Color3.new(1, 1, 1)
+mini.BackgroundTransparency = 1
+mini.Position = UDim2.new(0.810526371, 0, 0, 0)
+mini.Size = UDim2.new(0, 18, 0, 18)
+mini.Font = Enum.Font.GothamBold
+mini.Text = "-"
+mini.TextColor3 = Color3.new(1, 1, 1)
+mini.TextSize = 14
+
+-- Scripts:
+
+local function WCZUZKA_fake_script() -- df.dragging 
+	local script = Instance.new('LocalScript', df)
+
+	local UserInputService = game:GetService("UserInputService")
+	
+	local gui = script.Parent
+	
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+	
+	local function update(input)
+		local delta = input.Position - dragStart
+		wait() -- remove this line if you don't want the dragging to be smoother
+		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+	
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+			
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+	
+	UserInputService.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+end
+coroutine.wrap(WCZUZKA_fake_script)()
+local function XDVJ_fake_script() -- upd.LocalScript 
+	local script = Instance.new('LocalScript', upd)
+
+	script.Parent.MouseButton1Click:Connect(function()
+		script.Parent.Parent.T.Text = tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
+	end)
+end
+coroutine.wrap(XDVJ_fake_script)()
+local function GMIYA_fake_script() -- T.LocalScript 
+	local script = Instance.new('LocalScript', T)
+
+	script.Parent.Text = tostring(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position)
+end
+coroutine.wrap(GMIYA_fake_script)()
+local function PKTHP_fake_script() -- exit.LocalScript 
+	local script = Instance.new('LocalScript', exit)
+
+	script.Parent.MouseButton1Click:Connect(function()
+		script.Parent.Parent.Parent:Destroy()
+	end)
+end
+coroutine.wrap(PKTHP_fake_script)()
+local function GDVRJ_fake_script() -- mini.LocalScript 
+	local script = Instance.new('LocalScript', mini)
+
+	local q = false script.Parent.MouseButton1Click:Connect(function()if q==false then q=true script.Parent.Parent.main.Visible = false script.Parent.Text = "+" else q=false script.Parent.Parent.main.Visible = true script.Parent.Text = "-" end end)
+end
+coroutine.wrap(GDVRJ_fake_script)()
